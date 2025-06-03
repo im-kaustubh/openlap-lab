@@ -12,6 +12,10 @@ const IndicatorEditorDashboard = () => {
         <Grid item xs={12}>
           <Divider />
         </Grid>
+/*
+  This is a multi-line comment
+  that spans multiple lines
+*/
 
         <Grid item xs={12}>
           <MyIndicatorsTable />
