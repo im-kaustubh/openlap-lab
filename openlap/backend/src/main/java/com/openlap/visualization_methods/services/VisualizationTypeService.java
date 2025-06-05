@@ -11,7 +11,6 @@ public interface VisualizationTypeService {
 
   List<OpenLAPColumnConfigData> getVisTypeInputs(String typeId);
 
-  // TODO: The output of the visualization type is always null, this may not be needed
   List<OpenLAPColumnConfigData> getVisTypeOutputs(String typeId);
 
   List<VisualizationTypeResponse> getAllVisualizationTypesByVisualizationLibraryId(
