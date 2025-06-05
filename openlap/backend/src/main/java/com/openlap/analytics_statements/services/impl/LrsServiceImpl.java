@@ -86,13 +86,16 @@ public class LrsServiceImpl implements LrsService {
 
   @Override
   public LrsStore createStoreMethod(LrsProviderRequest lrsProviderRequest) {
-    // TODO: If admin role not found, create a new admin role manually.
     if (lrsStoreRepository.findByTitle(lrsProviderRequest.getTitle()) != null) {
       throw new LrsTitleAlreadyExistsException(
           "LRS with this title already exist. Please choose another title.");
     }
-    ;
-    String organisationId = getAdminRole().getOrganisation();
+    LrsRole adminRole = getAdminRole();
+    if (adminRole == null) {
+      adminRole =
+          lrsRoleRepository.save(new LrsRole(null, "Admin", new ObjectId().toHexString()));
+    }
+    String organisationId = adminRole.getOrganisation();
     LrsStore lrsStore = new LrsStore();
     lrsStore.setTitle(lrsProviderRequest.getTitle());
     lrsStore.setOrganisation(new ObjectId(organisationId));

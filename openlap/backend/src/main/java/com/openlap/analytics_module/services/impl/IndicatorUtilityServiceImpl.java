@@ -160,7 +160,6 @@ public class IndicatorUtilityServiceImpl implements IndicatorUtilityService {
       indicator.setCreatedBy(tokenService.getUserFromToken(request));
 
       if (indicatorReference.getIndicatorType() == IndicatorType.BASIC) {
-        // TODO: Extract platform information and add it to an attribute
         indicator.setIndicatorQuery(gson.toJson(indicatorReference.getIndicatorQuery()));
         uniquePlatforms.addAll(indicatorReference.getIndicatorQuery().getPlatforms());
       }
@@ -178,12 +177,7 @@ public class IndicatorUtilityServiceImpl implements IndicatorUtilityService {
         // // Metadata
         analyticsTechniqueReference.setAnalyticsTechnique(foundAnalyticsTechniquesById);
 
-        // // Params TODO: No need to transform
-        //        Map<String, String> transformedParams = new HashMap<>();
-        //        for (OpenLAPDynamicParam param : indicatorRequest.getAnalyticsTechniqueParams()) {
-        //          transformedParams.put(param.getId(), param.getValue().toString());
-        //        }
-        //        analyticsTechniqueReference.setAdditionalParams(gson.toJson(transformedParams));
+        // Parameters are already in correct format
         analyticsTechniqueReference.setAdditionalParams(
             gson.toJson(indicatorReference.getAnalyticsTechniqueParams()));
 
@@ -244,7 +238,6 @@ public class IndicatorUtilityServiceImpl implements IndicatorUtilityService {
         }
         indicator.setIndicators(new ArrayList<>());
         for (int i = 0; i < indicatorsList.size(); i++) {
-          // TODO: Extract the platform information and add it to the platform attribute
           IndicatorsToMergeRequest existingIndicator = indicatorsList.get(i);
           Indicator foundIndicator = fetchIndicatorMethod(existingIndicator.getIndicatorId());
           if (indicatorReference.getIndicatorType() == IndicatorType.MULTI_LEVEL) {

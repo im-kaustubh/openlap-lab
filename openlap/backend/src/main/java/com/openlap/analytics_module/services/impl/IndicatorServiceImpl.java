@@ -623,6 +623,10 @@ public class IndicatorServiceImpl implements IndicatorService {
     Gson gson = new Gson();
     User foundUser = tokenService.getUserFromToken(request);
     Indicator foundIndicator = indicatorUtilityService.fetchIndicatorMethod(indicatorId);
+    if (!foundIndicator.getCreatedBy().getId().equals(foundUser.getId())) {
+      throw new IndicatorManipulationNotAllowed(
+          "You do not have the permission to duplicate the indicator");
+    }
     String statementRequestStringify = "";
     List<IndicatorsToMerge> indicatorsToMergeList = new ArrayList<>();
     if (foundIndicator.getIndicatorType() == IndicatorType.BASIC) {
@@ -633,7 +637,6 @@ public class IndicatorServiceImpl implements IndicatorService {
         Indicator indicator = indicatorsToMerge.getIndicator();
         String tempStatementRequestStringify = getStatementRequestStringify(indicator, foundUser);
         String columnToMergeStringify = gson.toJson(indicator.getColumnToMerge());
-        // TODO: Validate if the indicator exists by user id
         Indicator newIndicator =
             new Indicator(
                 null,

@@ -2,6 +2,7 @@ package com.openlap.user.entities.utility_entities;
 
 import com.openlap.analytics_statements.entities.utility_entities.UniqueIdentifierType;
 import lombok.*;
+import org.bson.types.ObjectId;
 
 @Data
 @Getter
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LrsProvider {
-  // TODO: Add a id to the class
+  private ObjectId id = new ObjectId();
   private String lrsId;
   private String clientId;
   private UniqueIdentifierType uniqueIdentifierType;

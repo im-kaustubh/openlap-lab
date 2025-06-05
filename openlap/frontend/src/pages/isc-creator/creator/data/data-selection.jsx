@@ -1395,7 +1395,6 @@ const CSVUploader = ({ handlePopulateDataAndCloseModal }) => {
         type: isNumeric ? "number" : "string",
       };
     });
-    // TODO:
 
     let newRowData = rowData.map((data) => {
       const newData = { id: data.id };

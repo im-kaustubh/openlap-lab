@@ -15,18 +15,22 @@ import com.openlap.dataset.OpenLAPDataSet;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class IndicatorCompositeServiceImpl implements IndicatorCompositeService {
   private final IndicatorBasicService indicatorBasicService;
   private final IndicatorUtilityService indicatorUtilityService;
 
-  // TODO: logging required for composite indicator service
   @Override
   public OpenLAPDataSet mergeIndicatorsForCompositeIndicator(
       IndicatorCompositeMergeRequest indicatorCompositeRequest) {
+    log.info(
+        "Merging {} indicators for composite indicator",
+        indicatorCompositeRequest.getIndicators().size());
     Gson gson = new Gson();
     OpenLAPDataSet combinedAnalyzedDataSet = null;
     List<Map<String, List<?>>> analyticsHashMapList = new ArrayList<>();
@@ -75,8 +79,11 @@ public class IndicatorCompositeServiceImpl implements IndicatorCompositeService 
     processMergedDataForCompositeIndicator(
         analyticsHashMapList, analyticsTreeMaps, columnToMergeId, outputPorts);
 
-    return buildCombinedDataSetForCompositeIndicator(
-        combinedAnalyzedDataSet, analyticsTreeMaps, columnToMergeId, outputPorts);
+    OpenLAPDataSet result =
+        buildCombinedDataSetForCompositeIndicator(
+            combinedAnalyzedDataSet, analyticsTreeMaps, columnToMergeId, outputPorts);
+    log.info("Composite indicator merge completed");
+    return result;
   }
 
   private void removeUnwantedColumns(OpenLAPDataSet dataSet, String columnToMergeId) {
